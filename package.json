@@ -6,7 +6,7 @@
   "author": "George Kemp",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
