@@ -14,7 +14,7 @@ describe('Day One', () => {
     const data = readInput(path.resolve(__dirname, './input.txt'));
     const input = data.split('\n').map(Number);
     const result = partOne(input);
-    console.log(`Part One Answer: ${result}`);
+    console.log(`Part One: ${result}`);
     expect(result).toBe(3429947);
   });
 
@@ -29,7 +29,7 @@ describe('Day One', () => {
     const data = readInput(path.resolve(__dirname, './input.txt'));
     const input = data.split('\n').map(Number);
     const result = partTwo(input);
-    console.log(`Part Two Answer: ${result}`);
+    console.log(`Part Two: ${result}`);
     expect(result).toBe(5142043);
   });
 })
