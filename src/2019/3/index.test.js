@@ -1,4 +1,4 @@
-import { partOne, runProgram, partTwo } from ".";
+import { partOne, partTwo } from ".";
 import readInput from "../../utils/readInput";
 import path from 'path';
 
