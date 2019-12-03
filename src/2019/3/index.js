@@ -1,90 +1,38 @@
-import { intersection, get, set } from 'lodash';
-
-const processInput = (input) => {
+const getWires = (input) => {
   return input.split(`\n`).map(wire => {
     return wire.trim().split(',').map((cmd) => {
-      const split = cmd.split('');
-      const direction = split.shift();
-      return { direction, distance: Number(split.join('')) };
+      return { direction: cmd[0], distance: Number(cmd.slice(1)) };
     })
   })
-}
+};
 
-const move = (pos, dir) => {
-  switch(dir) {
-    case 'U':
-      pos[1] = pos[1] + 1;
-      break;
-    case 'D':
-      pos[1] = pos[1] - 1;
-      break;
-    case 'R':
-      pos[0] = pos[0] + 1;
-      break;
-    case 'L':
-      pos[0] = pos[0] - 1;
-      break;
+const getPath = (wire) => {
+  const path = new Map();
+  const pos = { x: 0, y: 0, l: 0 };
+  for (let i = 0; i < wire.length; i++) {
+    const { direction, distance } = wire[i];
+    for (let d = 0; d < distance; d++) {
+      pos.x += direction === 'R' ? 1 : direction === 'L' ? -1 : 0;
+      pos.y += direction === 'U' ? 1 : direction === 'D' ? -1 : 0;
+      pos.l++
+      path.set(`${pos.x}.${pos.y}`, pos.l);
+    }
   }
-  return pos;
-}
+  return path;
+};
 
 export const partOne = (input) => {
-  const wires = processInput(input);
-  const paths = wires.map(wire => {
-    const cells = {};
-    let pos = [0, 0];
-    for (let i = 0; i < wire.length; i++) {
-      const { direction, distance } = wire[i];
-      for (let x = 0; x < distance; x++) {
-        pos = move(pos, direction);
-        cells[pos[0]] = cells[pos[0]] ? [...cells[pos[0]], pos[1]] : [pos[1]]
-      }
-    }
-    return cells;
-  });
-  const intersections = [];
-  
-  for (let i = 0; i < Object.keys(paths[0]).length; i++) {
-    const x = Object.keys(paths[0])[i];
-    if (paths[1][x]) {
-      // They were both on the same x at some point
-      intersection(paths[0][x], paths[1][x]).forEach(y => {
-        intersections.push([x, y]);
-      })
-    }
-  }
-  return Math.min(...intersections.map(([x, y]) => Math.abs(x) + Math.abs(y)));
-}
+  const wires = getWires(input);
+  const [wireOnePath, wireTwoPath] = wires.map(getPath);
+  return Math.min(...[...wireOnePath.entries()]
+    .filter(([pos]) => wireTwoPath.has(pos))
+    .map(([pos]) => pos.split('.').map(Number).map(Math.abs).reduce((total, x) => x + total, 0)));
+};
 
 export const partTwo = (input) => {
-  const wires = processInput(input);
-  const paths = wires.map(wire => {
-    //const path = [];
-    const cells = {};
-    let pos = [0, 0, 0];
-    for (let i = 0; i < wire.length; i++) {
-      const { direction, distance } = wire[i];
-      for (let x = 0; x < distance; x++) {
-        pos = move(pos, direction);
-        pos[2]++;
-        if (!get(cells, `x${pos[0]}.y${pos[1]}`)) {
-          set(cells, `x${pos[0]}.y${pos[1]}`, pos[2]);
-        }
-        //path.push([...pos]);
-      }
-    }
-    return cells;
-  });
-  const intersectionDistances = [];
-  for (let i = 0; i < Object.keys(paths[0]).length; i++) {
-    const x = Object.keys(paths[0])[i];
-    for (let j = 0; j < Object.keys(paths[0][x]).length; j++) {
-      const y = Object.keys(paths[0][x])[j];
-      if (get(paths[1], `${x}.${y}`)) {
-        intersectionDistances.push(paths[1][x][y] + paths[0][x][y]);
-      }
-    }
-
-  }
-  return Math.min(...intersectionDistances);
-}
+  const wires = getWires(input);
+  const [wireOnePath, wireTwoPath] = wires.map(getPath);
+  return Math.min(...[...wireOnePath.entries()]
+    .filter(([pos]) => wireTwoPath.has(pos))
+    .map(([pos, dist]) => dist + wireTwoPath.get(pos)));
+};
