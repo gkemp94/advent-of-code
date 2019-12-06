@@ -13,6 +13,7 @@ describe('Part One', () => {
   it('Outputs Correct Answer for Part One', () => {
     const data = readInput(path.resolve(__dirname, './input.txt'));
     const result = partOne(data);
+    console.log(`Part One: ${result}`);
     expect(result).toBe(15259545)
   });
 });
@@ -35,6 +36,7 @@ describe('Part Two', () => {
   it('Outputs Correct Answer for Part One', () => {
     const data = readInput(path.resolve(__dirname, './input.txt'));
     const result = partTwo(data);
+    console.log(`Part Two: ${result}`);
     expect(result).toBe(7616021)
   });
 });
