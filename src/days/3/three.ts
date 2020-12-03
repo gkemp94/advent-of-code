@@ -1,10 +1,3 @@
-interface IEntry {
-  varA: number;
-  varB: number;
-  char: string;
-  pass: string;
-}
-
 export const processInput = (input: string): string[][] => {
   return input.split('\n').map(x => x.split(''));
 };
