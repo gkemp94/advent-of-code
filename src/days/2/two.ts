@@ -4,6 +4,7 @@ interface IEntry {
   char: string;
   pass: string;
 }
+
 export const processInput = (input: string): IEntry[] => {
   return input.split('\n').map(x => {
     const [policy, pass] = x.split(':');
