@@ -4,7 +4,7 @@ export const processInput = (input: string) => {
 
 export const partOne = (input: number[]) => {
   for (let i = 0; i < input.length; i++) {
-    for (let j = i; j < input.length; j++) {
+    for (let j = i + 1; j < input.length; j++) {
       if ((input[i] + input[j]) === 2020) {
         return input[i] * input[j];
       }
@@ -14,8 +14,8 @@ export const partOne = (input: number[]) => {
 
 export const partTwo = (input: number[]) => {
   for (let i = 0; i < input.length; i++) {
-    for (let j = i; j < input.length; j++) {
-      for (let k = j; k < input.length; k++) {
+    for (let j = i + 1; j < input.length; j++) {
+      for (let k = j + 1; k < input.length; k++) {
         if ((input[i] + input[j] + input[k]) === 2020) {
           return input[i] * input[j] * input[k];
         }
