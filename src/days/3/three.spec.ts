@@ -14,7 +14,7 @@ describe('Part One', () => {
 });
 
 describe('Part Two', () => {
-  it('returns 1 for sample input.', () => {
+  it('returns 336 for sample input.', () => {
     expect(partTwo(SAMPLE_INPUT)).toBe(336);
   });
   it('returns correct result for puzzle input', () => {
