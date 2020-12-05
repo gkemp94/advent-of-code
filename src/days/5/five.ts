@@ -30,9 +30,7 @@ export const partOne = (input: string[]) => {
 };
 
 export const partTwo = (input: string[]) => {
-  const seating = new Array(128).fill(null).map(() => {
-    return new Array(8).fill(null).map(() => '0');
-  });
+  const seating = new Array(128).fill(null).map(() => new Array(8).fill(null).map(() => '0'));
   const seatIds = new Set();
   // Fill Seats
   for (let i = 0; i < input.length; i++) {
