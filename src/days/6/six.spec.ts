@@ -16,7 +16,7 @@ describe('Part One', () => {
 
 
 describe('Part Two', () => {
-    it('returns 11 for sample input.', () => {
+    it('returns 6 for sample input.', () => {
     expect(partTwo(SAMPLE_INPUT)).toBe(6);
   });
   
