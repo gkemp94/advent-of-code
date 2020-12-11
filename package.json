@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/gkemp94/advent-of-code-2020#readme",
   "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.10",
     "jest": "^26.6.3",
     "ts-jest": "^26.4.4",
-    "typescript": "^4.1.2",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^14.14.10"
+    "typescript": "^4.1.2"
   },
   "jest": {
     "preset": "ts-jest",
