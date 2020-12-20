@@ -1,10 +1,18 @@
-export const memo = <T extends any[], J>(func: (...args: T) => J) => {
-  const cache: Record<string, J> = {};
-  return (...args: T): J => {
+type Memoizable = (...args: any[]) => any;
+
+export function memo<T extends Memoizable>(func: T) {
+  const memoized = function (...args: Parameters<T>): ReturnType<T> {
     const key = JSON.stringify(args);
-    if (!cache[key]) {
-      cache[key] = func(...args);
+    const cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key)!;
     }
-    return cache[key];
-  }
+
+    const result = func(...args);
+    memoized.cache = cache.set(key, result);
+    return result;
+  };
+  memoized.cache = new Map<string, ReturnType<T>>();
+  return memoized;
 };
