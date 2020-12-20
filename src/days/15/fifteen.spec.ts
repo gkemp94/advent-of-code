@@ -20,6 +20,6 @@ describe('Part Two', () => {
   
   it('returns correct result for puzzle input', () => {
     const result = partTwo(PUZZLE_INPUT, 30000000);
-    expect(result).toBe("807435693182510");
+    expect(result).toBe(9136);
   });
 });

@@ -16,7 +16,6 @@ export const partOne = (input: number[], turns: number) => {
       current = 0;
     }
   }
-
   return current;
 }
 

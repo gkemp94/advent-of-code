@@ -13,7 +13,7 @@ export const partOne = (input: number[]) => {
   return diffs[1] * diffs[3];
 };
 
-export const getAdapterList = memo<[number, number[]], number>((currentAdapter: number, input: number[]): number => {
+export const getAdapterList = memo((currentAdapter: number, input: number[]): number => {
   let configurations: number = 0;
   if (input.findIndex(x => !!(x - currentAdapter <= 3)) === -1) return 1;
   while (true) {
