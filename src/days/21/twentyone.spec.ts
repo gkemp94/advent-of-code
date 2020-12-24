@@ -19,7 +19,7 @@ describe('Part One', () => {
 });
 
 describe('Part Two', () => {
-  it('returns 23340 for sample input.', () => {
+  it('returns mxmxvkd,sqjhc,fvjkl for sample input.', () => {
     expect(partTwo(SAMPLE_INPUT)).toBe("mxmxvkd,sqjhc,fvjkl");
   });
 
