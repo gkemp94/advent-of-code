@@ -1,4 +1,3 @@
-import { flatten } from "../../utils/flatten";
 import { memo } from "../../utils/memo";
 
 interface IInput {
@@ -47,13 +46,12 @@ const isValidTicket = (ticket: number[], rules: number[][]) => {
 
 export const partOne = ({ nearbyTickets, rules }: IInput, turns: number) => {
   let error = 0;
-  const flattenedArray = flatten(nearbyTickets);
+  const flattenedArray = nearbyTickets.flat();
   const flattenedRules = Object.keys(rules).reduce<number[][]>((prev: number[][], key: string) => {
     prev.push(rules[key][0], rules[key][1]);
     return prev;
   }, []);
   
-
   for (let i = 0; i < flattenedArray.length; i++) {
     const number = flattenedArray[i];
     if(!isValid(number, flattenedRules)) {

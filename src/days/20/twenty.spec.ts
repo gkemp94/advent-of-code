@@ -12,17 +12,17 @@ describe('Part One', () => {
   it('returns correct result for puzzle input', () => {
     expect(partOne(PUZZLE_INPUT)).toBe(174206308298779);
   });
-/*
+
 });
 
 describe('Part Two', () => {
   it('returns 23340 for sample input.', () => {
-    expect(partTwo(SAMPLE_INPUT)).toBe(23340);
+    expect(partTwo(SAMPLE_INPUT)).toBe(273);
   });
-  /*
+
   it('returns correct result for puzzle input', () => {
-    expect(partTwo(PUZZLE_INPUT)).toBe(65658760783597);
+    expect(partTwo(PUZZLE_INPUT)).toBe(2409);
   });
-*/
+
 });
 
