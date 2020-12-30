@@ -1,5 +1,3 @@
-import { memo } from "../../utils/memo";
-
 export const processInput = (input: string): [number, string[][]][] => {
   return input.split('\n\n').map(x => {
     const [id, piece] = x.split(':\n');
@@ -11,7 +9,7 @@ const reverse = (str: string) => {
   return str.split('').reverse().join('');
 };
 
-const computeSides = memo(((tile): [string, string, string, string] => {
+const computeSides = (tile: string[][]): [string, string, string, string] => {
   return [
     tile[0].join(''), // Top
     tile[tile.length - 1].join(''), // Bottom
@@ -22,36 +20,49 @@ const computeSides = memo(((tile): [string, string, string, string] => {
       return tile[i][tile.length - 1] // Right
     }).join(''),
   ]
-}));
+};;
+
+const populateSides = (tiles: Map<number, Tile>) => {
+  const sidesObj: any = {};
+  tiles.forEach(tile => {
+    const sides = tile.sides;
+    sides.forEach(side => {
+      if (sidesObj[side]) {
+        sidesObj[side].push(tile.id);
+      } else if (sidesObj[reverse(side)]) {
+        sidesObj[reverse(side)].push(tile.id);
+      } else {
+        sidesObj[side] = [tile.id];
+      }
+    })
+  });
+
+  const counts: Record<number, number> = {};
+  const emptySides: Record<number, string[]> = {};
+  Object.keys(sidesObj).forEach(key => {
+    if (sidesObj[key].length === 1) {
+      counts[sidesObj[key][0]] = (counts[sidesObj[key][0]] || 0) + 1;
+      emptySides[sidesObj[key][0]] = (emptySides[sidesObj[key][0]] || []).concat([key]);
+    }
+  });
+
+  return { counts, emptySides, sidesObj };
+};
+
+const createTiles = (input: [number, string[][]][]): Map<number, Tile> => {
+  return input.reduce((prev, curr) => {
+    prev.set(curr[0], new Tile(...curr));
+    return prev;
+  }, new Map<number, Tile>())
+};
 
 export const partOne = (input: [number, string[][]][]) => {
-  const map: Record<string, number[]> = {};
+  const tiles = createTiles(input);
+  const { counts } = populateSides(tiles);
 
-  // Populate Sides
-  for (let i = 0; i < input.length; i++) {
-    const sides: string[] = computeSides(input[i][1]);
-    for (let j = 0; j < sides.length; j++) {
-      if (map[sides[j]]) {
-        map[sides[j]].push(input[i][0]);
-      } else if (map[sides[j].split('').reverse().join('')]) {
-        map[sides[j].split('').reverse().join('')].push(input[i][0]);
-      } else {
-        map[sides[j]] = [input[i][0]];
-      }
-    }
-  }
-
-  // Find Counts of Attatched Sides
-  const counts: Record<string, number> = {};
-  for (let i = 0; i < Object.keys(map).length; i++) {
-    const key = Object.keys(map)[i];
-    if (map[key].length === 1) {
-      counts[map[key][0]] = counts[map[key][0]] ? counts[map[key][0]] + 1 : 1;
-    }
-  }
   return Object.keys(counts).reduce((prev, curr) => {
-    return counts[curr] === 2 ? prev * parseInt(curr) : prev;
-  }, 1)
+    return counts[parseInt(curr)] === 2 ? prev * parseInt(curr) : prev;
+  }, 1);
 };
 
 class Tile {
@@ -118,36 +129,9 @@ const printGrid = (grid: Tile[][]): string => {
 }
 
 export const partTwo = (input: [number, string[][]][]) => {
-  const tiles = new Map<number, Tile>();
+  const tiles = createTiles(input);
+  const { counts, emptySides } = populateSides(tiles);
 
-  // Create Tiles
-  for (let i = 0; i < input.length; i++) {
-    tiles.set(input[i][0], new Tile(...input[i]));
-  }
-
-  // Find A Corner Tile
-  const sidesObj: any = {};
-  tiles.forEach(tile => {
-    const sides = tile.sides;
-    sides.forEach(side => {
-      if (sidesObj[side]) {
-        sidesObj[side].push(tile.id);
-      } else if (sidesObj[side.split('').reverse().join('')]) {
-        sidesObj[side.split('').reverse().join('')].push(tile.id);
-      } else {
-        sidesObj[side] = [tile.id];
-      }
-    })
-  });
-
-  const counts: Record<number, number> = {};
-  const emptySides: Record<number, string[]> = {};
-  Object.keys(sidesObj).forEach(key => {
-    if (sidesObj[key].length === 1) {
-      counts[sidesObj[key][0]] = (counts[sidesObj[key][0]] || 0) + 1;
-      emptySides[sidesObj[key][0]] = (emptySides[sidesObj[key][0]] || []).concat([key]);
-    }
-  });
   const firstTileId = parseInt(Object.keys(counts).find(x => counts[parseInt(x)] === 2)!);
   const firstTileEmptySides = emptySides[firstTileId];
   const firstTile = tiles.get(firstTileId)!;
