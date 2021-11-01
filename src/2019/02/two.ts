@@ -1,36 +1,89 @@
 
-export function IntCode(input: string, noun?: number, verb?: number) {
+const get = (memory: number[], index: number, mode: number = 0) => {
+  return mode === 0 ? memory[memory[index]] : memory[index];
+}
+
+export function IntCode(program: string, noun?: number, verb?: number, input = 1) {
   let pointer = 0;
-  const memory = input.split(',').map(x => parseInt(x));
+  const memory = program.split(',').map(Number);
   memory[1] = noun || memory[1];
   memory[2] = verb || memory[2];
+  let output;
   while(true) {
-    const instruction = memory[pointer];
-    switch (instruction) {
+    const instructionStr = memory[pointer].toString();
+    const opCode = Number(instructionStr.substr(-2));
+    const modes = instructionStr.substr(0, instructionStr.length - 2).split('').map(Number).reverse();
+    switch (opCode) {
       case 1: {
-        const params = memory.slice(pointer + 1, pointer + 4);
-        memory[params[2]] = memory[params[0]] + memory[params[1]];
+        const input1 = get(memory, pointer + 1, modes[0]);
+        const input2 = get(memory, pointer + 2, modes[1]);
+        memory[memory[pointer + 3]] = input1 + input2;
         pointer += 4;
         break;
       }
       case 2: {
-        const params = memory.slice(pointer + 1, pointer + 4);
-        memory[params[2]] = memory[params[0]] * memory[params[1]];
+        const input1 = get(memory, pointer + 1, modes[0]);
+        const input2 = get(memory, pointer + 2, modes[1]);
+        memory[memory[pointer + 3]] = input1 * input2;
         pointer += 4;
+        break; 
+      }
+      case 3: {
+        memory[memory[pointer + 1]] = input;
+        pointer += 2;
+        break;
+      }
+      case 4: {
+        output = get(memory, pointer + 1, modes[0]);
+        pointer += 2;
+        break;
+      }
+      case 5: {
+        const input1 = get(memory, pointer + 1, modes[0]);
+        const input2 = get(memory, pointer + 2, modes[1]);
+        if (input1 !== 0) {
+          pointer = input2;
+        } else {
+          pointer += 3;
+        }
+        break;
+      }
+      case 6: {
+        const input1 = get(memory, pointer + 1, modes[0]);
+        const input2 = get(memory, pointer + 2, modes[1]);
+        if (input1 === 0) {
+          pointer = input2;
+        } else {
+          pointer += 3;
+        }
+        break;
+      }
+      case 7: {
+        const input1 = get(memory, pointer + 1, modes[0]);
+        const input2 = get(memory, pointer + 2, modes[1]);
+        memory[memory[pointer + 3]] = input1 < input2 ? 1 : 0;
+        pointer += 4
+        break;
+      }
+      case 8: {
+        const input1 = get(memory, pointer + 1, modes[0]);
+        const input2 = get(memory, pointer + 2, modes[1]);
+        memory[memory[pointer + 3]] = input1 === input2 ? 1 : 0;
+        pointer += 4
         break;
       }
       case 99: {
-        return memory;
+        return { memory, output };
       }
       default: {
-        throw new Error(`Unknown opcode ${instruction}`);
+        throw new Error(`Unknown opcode ${opCode}`);
       }
     }
   }
 }
 
 export const partOne = (input: string, noun = 12, verb = 2) => {
-  return IntCode(input, noun, verb)[0]
+  return IntCode(input, noun, verb).memory[0]
 };
 
 export const partTwo = (input: string) => {

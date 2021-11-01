@@ -6,7 +6,7 @@ const PUZZLE_INPUT = getFile(__dirname, 'input.txt');
 
 describe('Part One', () => {
   it('returns 3500 for sample input.', () => {
-    expect(IntCode(SAMPLE_INPUT)[0]).toBe(3500);
+    expect(IntCode(SAMPLE_INPUT).memory[0]).toBe(3500);
   });
   it('returns correct result for puzzle input', () => {
     expect(partOne(PUZZLE_INPUT)).toBe(4570637);
