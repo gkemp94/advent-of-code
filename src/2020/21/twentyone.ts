@@ -1,7 +1,3 @@
-import { flatten } from "../../utils/flatten";
-import { memo } from "../../utils/memo";
-
-
 export const processInput = (input: string): any => {
   return input.split('\n').map(x => {
     const { ingredients, allergens } = x.match(/^(?<ingredients>(([a-z]+) )+)\(contains (?<allergens>(([a-z]+),? ?)+)+\)$/)!.groups!;
@@ -74,9 +70,9 @@ export const partOne = (input: [string[], string[]][]) => {
 
   const result = solve(input);
 
-  return flatten(input.reduce<any>((prev, curr) => {
+  return input.reduce<any>((prev, curr) => {
     return [...prev, curr[0]]
-  }, [])).filter((x: string) => !result.has(x)).length;
+  }, []).flat().filter((x: string) => !result.has(x)).length;
 }
 
 export const partTwo = (input: [string[], string[]][]) => {
