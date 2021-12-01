@@ -1,7 +1,8 @@
 import { IntCode } from "../02/two";
 
 export const partOne = (input: string) => {
-  return IntCode(input).output;
+  const output = IntCode(input).output as number[];
+  return output[output.length - 1];
 };
 
 export const partTwo = (input: string) => {
