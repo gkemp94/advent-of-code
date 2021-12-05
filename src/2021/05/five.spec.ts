@@ -20,6 +20,6 @@ describe('Part Two', () => {
     expect(partTwo(SAMPLE_INPUT)).toBe(12);
   });
   it('returns correct result for puzzle input', () => {
-    expect(partTwo(PUZZLE_INPUT)).toBe(705);
+    expect(partTwo(PUZZLE_INPUT)).toBe(21305);
   });
 });
