@@ -5,7 +5,7 @@ const SAMPLE_INPUT = processInput(getFile(__dirname, 'sample_1.txt'));
 const SAMPLE_INPUT_2 = processInput(getFile(__dirname, 'sample_2.txt'));
 const PUZZLE_INPUT = processInput(getFile(__dirname, 'input.txt'));
 
-xdescribe('Part One', () => {
+describe('Part One', () => {
   it('returns 165 for sample input.', () => {
    expect(partOne(SAMPLE_INPUT)).toBe(165);
   });

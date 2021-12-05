@@ -33,8 +33,3 @@ export const partOne = (input: number[]) => {
 
   return handshake(doorPublicKey, cardLoopSize);  
 };
-
-
-export const partTwo = (input: any) => {
-  
-};
