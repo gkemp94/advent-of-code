@@ -1,5 +1,3 @@
-import { count } from "console";
-
 export const processInput = (input: string): number[] => {
   return input.split(',').map(Number);
 };
