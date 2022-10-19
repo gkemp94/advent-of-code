@@ -35,7 +35,7 @@ const run = (
   let packetsProcessed = 0;
   while (
     input.length &&
-    (!maxBitCount || bitsProcessed < maxBitCount) &&
+    (!maxBitCount || bitsProcessed <= maxBitCount - 11) &&
     (!maxPacketCount || packetsProcessed < maxPacketCount)
   ) {
     const packetVersion = bin2Hex(input.splice(0, 3));
@@ -125,7 +125,7 @@ const run = (
           break;
         }
       }
-      console.log({ packetId, localValues, values });
+      // console.log({ packetId, localValues, values });
     }
   }
 
