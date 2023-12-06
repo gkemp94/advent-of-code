@@ -18,6 +18,6 @@ describe("Part Two", () => {
     expect(partTwo(SAMPLE_INPUT)).toBe(46);
   });
   it("returns correct answer for puzzle input", () => {
-    expect(partTwo(PUZZLE_INPUT)).toBeLessThan(99751241);
+    expect(partTwo(PUZZLE_INPUT)).toBe(99751240);
   });
 });
