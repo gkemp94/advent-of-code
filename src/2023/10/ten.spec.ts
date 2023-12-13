@@ -15,6 +15,8 @@ describe("Part One", () => {
 });
 
 describe("Part Two", () => {
-  it.todo("returns correct answer for sample input.");
+  xit("returns correct answer for sample input.", () => {
+    expect(partTwo(SAMPLE_INPUT)).toBe(1);
+  });
   it.todo("returns correct answer for puzzle input");
 });
